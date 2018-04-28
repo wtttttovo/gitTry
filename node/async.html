@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        //p3();
+
+        async function p1() {
+            await new Promise((resolve,reject)=>{
+                console.log('fun:in');              //1
+                //resolve('p1');
+                reject(1);
+            }).then(()=>{
+                console.log('fun then');
+            }).catch(()=>{
+                console.log('fun catch');           //2
+            });
+
+
+            await new Promise((resolve)=>{
+                console.log('fun2:in');             //3
+                resolve('p1');
+            }).then(()=>{
+                console.log('fun2 then');           //4
+            });
+        }
+
+
+        function p2() {
+            new Promise((resolve)=>{
+                console.log('p:in');                //1
+                resolve('p1');
+            }).then(()=>{
+                console.log('p then');              //3
+            });
+
+            new Promise((resolve)=>{
+                console.log('p2:in');               //2
+                resolve('p1');
+            }).then(()=>{
+                console.log(' p2 then');            //4
+            });
+        }
+
+        async function p3() {
+            await Promise.all([setA(),setB()]);     //同时触发promise，同p2
+        }
+
+        function setA() {
+            return new Promise(resolve=>{
+                resolve();
+                console.log('a in');
+            }).then(()=>{
+                console.log('a then');
+            });
+        }
+
+        function setB() {
+            return new Promise(resolve=>{
+                resolve();
+                console.log('b in');
+            }).then(()=>{
+                console.log('b then');
+            });
+        }
+
+
+        console.log(Promise.all([]));       //resolved,,,等待全部完成或者第一个错误抛出，错误的话error=1st抛出的error
+    </script>>
+</head>
+<body>
+
+</body>
+</html>
