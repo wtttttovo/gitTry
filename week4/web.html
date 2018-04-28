@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        input:default+label:after{
+            color: pink;
+            content: "(recommend)";
+        }
+
+        option:default{
+            color: pink;    /*效果呢？？？*/
+        }
+
+        button:default{
+            color: pink;
+        }                   /*????*/
+
+        /*:defined{
+            !*when define a complex element that takes time to load you can use the pseudo-class to display it before it complete*!
+        }*/
+
+        /*气死，，，MDN上不去啊啊啊*/
+    </style>
+</head>
+<body>
+<input type="radio" name="season" id="winter">
+<label for="winter">Winter</label>
+
+<input type="radio" name="season" id="sping">
+<label for="winter">sp</label>
+
+<input type="radio" name="season" id="summer">
+<label for="winter">sum</label>
+
+<input type="radio" name="season" id="aut" checked>
+<label for="winter">aut</label>
+
+<select>
+    <option >123</option>
+    <option selected>345</option>
+    <option>456</option>
+</select>
+
+<button default>123321</button>
+</body>
+</html>

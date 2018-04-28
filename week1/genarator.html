@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>margin-top</title>
+    <script type="text/javascript">
+        //一次生成一个值，就是那种有循环也一次走一步的那种，借助yield实现，
+        // 有点像是惰性加载来的
+        //???应用异步操作ajax
+        function* gener(){
+            var x = 0;
+            while(x<3){
+                yield x++;      //这个就是return
+            }
+        }
+        var fun = gener();
+        console.log(fun.next().value);
+        console.log(fun.next().value);
+
+
+        //还可以用迭代器完成上面的效果
+        function otherWay(){
+            var x = 0;
+            return {
+                next:function(){
+                    return 	{value:x++,done:false};
+                }
+            }
+
+        }
+        var item = otherWay();
+        console.log(item.next().value);
+        console.log(item.next().value);
+
+
+
+        //proxy，，，嗯，会修改原来默认的行为，理解着是操作一个对象的时候先加了一道防线，获取或修改操作要先通过一道关卡才能干点什么
+        let x = {
+            a:1,
+            b:2
+        }
+
+        let handler = {
+            get:function(target,key){
+                return key in target?target[key]:"not exist";
+            }
+        }
+
+        var p = new Proxy(x,handler);
+        console.log(p.a);
+        console.log(p.c);
+    </script>
+    <style type="text/css">
+        #container{
+            width: 500px;
+            height: 400px;
+            background: pink;
+            /*border: 3px solid cornflowerblue;*/
+        }
+        #content{
+            background: salmon;
+            width: 380px;      /*这样一看calc()还是很好用的*/
+            height: 280px;
+            /*border: 5px solid black;    !*border是在content外画框,margin在border外开始设置，border、padding全算在content中*!*/
+            /*outline: 5px solid red;     !*和margin是重叠的*!*/
+            padding: 50px;          /*omg padding内边距是通过把容器撑大实现的啊，我一直以为就只是内边距*/
+            margin: 10px;           /*margin padding不冲突，是叠加的 我的效果怎么在跑偏*/
+            /*margin-top不见了！！！作用到父元素了？？？
+            说给父元素加padding-top可以试下，加上之后margin-top也有效了。。。
+            默认有margin-top属性，然后就边距合并了？？？
+            body有margin属性，嵌套的元素就合并了*/
+        }
+    </style>
+</head>
+<body>
+<div>
+    <div id="container">
+        <div id="content"></div>
+    </div>
+</div>
+
+</body>
+</html>

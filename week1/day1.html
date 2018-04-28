@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>          <!--a page description that you want to appear in search result？？？-->
+    <meta charset="UTF-8">    <!--网页编码方式 原来还要设置http-equiv="content-type" content="text/html"-->
+
+    <!-- 搜索中显示的结果--》主要靠在meta中设置关键字keywords,description供搜索引擎查询  ----- 记得再看看搜索原理
+     不设置meta不也会爬取网页搜索关键字，那meta对结果的影响？？meta关键字无条件被接收？？那不是可以作弊？？
+     爬虫只是扒到页面上已有的信息，如果整个页面是动态获取到那就找不到关键词了呀，还是有必要写写的，至于是不是直接使用看各家浏览器自己的本事了-->
+    <meta name="keywords" content="keyword1,keyword2">       <!--name的value基本与页面信息相关可用于搜索-->
+    <meta name="description" content="balabala">
+    <meta name="robots" content="all">                  <!--generator referrer author-->
+    <meta name="application-name" content="document">           <!--title  使用？？-->
+
+    <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+
+
+    <meta http-equiv="refresh" content="3" url="">              <!--刷新，同步，体验感不是很好的样子，，，ajax-->
+    <meta http-equiv="content-security-policy" content="xxx-src:value;">     <!--网页安全相关 xxs ==》 设置网页白名单指定有效参数
+                                                            'self' 'none' 'nonce-xxx'(http给出的授权token)
+                                                            connect————暂时ajax、a     script(外部脚本)---涉及到jsonp回调函数  -->
+    <meta http-equiv="expires" content="GMT时间">           <!--设置cookie有效时长-->
+    <meta http-equiv="window-target" content="_top">        <!--防止页面被别人的frame调用，，，其实自己的其他页面也不行了啊-->
+
+    <title>Document</title>
+
+    <base target="_self" href="http://www.example.com/page.html">       <!--href   特定-> 要在第一个URL属性定义前定义(meta不承认)
+                                                                        有多个时以第一个为准（不是就近？？不应该覆盖吗？？  应该看渲染原理？）-->
+    <base target="_blank" href="http://www.example.com">
+</head>
+<body>
+<a href="#">this is a link</a>      <!--试试base-->
+
+<!--语义化标签  似乎只对开发者有意义？部分做了css的工作，可是又不一定会用默认样式？？-->
+<ul style="list-style-type:decimal">                    <!--unordered  ??-->
+    <li>起床</li>
+    <li>吃饭</li>
+    <li>出门</li>
+</ul>
+
+<ol>                    <!--ordered  主观判断是否有序??除了标签似乎没区别？-->
+    <li>起床</li>
+    <li>吃饭</li>
+    <li>出门</li>
+</ol>
+
+<u>hehe</u><br>
+<b>i like eating</b><br>
+<strong>i like eating</strong><br>  <!--虽然都会显示为加粗  但strong目的是强调(b只是文本样式改变，strong在强调这段文字) 显示但形式不止于加粗  e.g.可以标红什么的啊-->
+i like <em>eating</em><br>          <!--em 在强调喜欢但是'吃'  比起strong强调语义  i只改变样式-->
+<i>i like eating</i>                <!--h5语义化 所以ul ol也是语义化但产物？？-->
+
+
+<p>My first day in <strong>Haola</strong></p>         <!--嵌套元素顺序————栈诶-->
+
+<h4>here is a photo</h4>    <!--h1~h6 提高可读性当然愿意自己一个个设置也可以啦-->
+<p>here is a photo</p>      <!--heading 默认bold-->
+
+<img src="" alt="null" title="img">        <!--无闭合标签的元素叫空元素，原来只知道怎么使用原来还有名字！！！  系统的理一下知识点果然有必要
+                         alt一直以为是图片无法加载时提示的文字信息，居然还有为盲人的考量  designed to work for all people（aria）-->
+
+<address>find me here ----> haha it`s a secret</address>        <!--竟然不知道有专用标签，一直都用div直接写，捡漏ing-->
+</body>
+</html>

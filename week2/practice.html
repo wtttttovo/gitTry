@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--自己独立写出一个js函数，可以查资料，不要查博客请教其他人。
+    功能如下：对于任意一个对象，比如: obj = {a:1,b:{c:1,x:1,y:1},d:{e:{f:1},z:1}}，
+    作为函数参数输入，函数返回一个数组，包含其所有属性，如下：['a','b.c','b.x','b.y','d.e.f','d.z']，元素顺序不重要。
+    这个函数可以用于遍历一个对象里的所有属性，遍历了obj.a, obj.b.c, obj.b.x, obj.b.y, obj.d.e.f, obj.d.z就可以得到这个对象里的所有值。-->
+    <script type="text/javascript">
+
+        function getProperties(obj) {
+
+            let properties = Object.keys(obj);
+
+            for(let i=0;i<properties.length;i++){
+                let key = properties[i];
+                let value = obj[key];
+                if(typeof value === 'object') {
+                    Object.keys(value).forEach((index)=>{
+                        Object.assign(obj,{[`${key}.${index}`]:value[index]});
+                        properties.push(`${key}.${index}`);
+                    });
+                    delete obj[key];
+                }
+            }
+
+            console.log(Object.values(obj));
+            return Object.keys(obj);
+        }
+
+
+      function getP(obj) {
+          let res = [];
+
+          if(Object.prototype.toString.call(obj) === '[object Object]') {
+            Object.keys(obj).forEach((key) => {
+                if (typeof(obj[key]) === 'object') {
+                    let tmp = getP(obj[key]);
+                    tmp.length === 0 ? res.push(key) : res = res.concat(tmp.map(k => `${key}.${k}`));
+                } else {
+                    res.push(key);
+                }
+            });
+        }
+
+        return res;
+      }
+
+        obj = {a:1,b:{c:1,x:1,y:1},d:{e:{f:1},z:{x:1, m:{n:{x:{y:1}}}}}};
+        console.log(getP(obj));
+
+        const a={a:1};
+        const b={a:1};
+        alert(a==b);
+    </script>
+</head>
+<body>
+
+</body>
+</html>

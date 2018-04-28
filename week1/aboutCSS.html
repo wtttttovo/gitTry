@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript">
+        /*唉。。为什么不好使啊*/
+        /*document.getElementById('values').onchange = function () {
+            var item = document.getElementById('values');
+            var index = item.selectedIndex;
+            document.getElementById('container').style.alignContent = item.options[index].value;
+        }*/
+        function setAttr() {
+            var item = document.getElementById('values');
+            var index = item.selectedIndex;
+            //document.getElementById('container').style.alignContent = item.options[index].value;
+            document.getElementById('container').setAttribute('style',`align-content:${item.options[index].value}`);
+        }
+    </script>
+    <style type="text/css">
+        /*about align,,,
+        algin-content algin-item algin-self 他们是flexbox才有的属性，，，
+        content的话是调整空白部分位置大小来对应外部容器，item感觉空白部分是定的主要调内部元素位置（除了stretch），self就是调的某一个子元素跟另外一个子元素来对应
+        但是现在还没太明白怎么用
+        justify-content感觉跟这个用法差不多，不过一个用在外容器上，一个用在内容物上*/
+        #container {
+            height:200px;
+            width: 240px;
+            align-content: center;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+
+        div > div {
+            box-sizing: border-box;
+            border: 2px solid #8c8c8c;
+            background-color: #8cffa0;
+            width: 50px;
+            min-height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #item6{
+            transform: rotate(30deg);/*单位还有 grad（400grad）  rad(2PI rad)  turn(1 turn )*/
+        }
+
+        /*一直以为attr()是dom用的  原来css也能用啊
+        另，，content是和：：after  ：：before一起的*/
+        #item6::after{
+            content:attr(data-item);
+        }
+
+        /*animation*/
+        @keyframes myAct {
+            from{
+                font-size:10px;
+            }
+            to{
+                font-size:40px;
+            }
+        }
+
+        #item7:hover{
+            animation-name:myAct;
+            animation-duration: 3s;
+            animation-timing-function: linear;  /*ease ease-in ease-out ease-in-out cubic-bezier(a,b,c,d)*/
+            animation-delay: 1s;
+            animation-iteration-count: infinite;
+            animation-direction: reverse; /*normal alternate alternate-reverse*/
+            animation-fill-mode: forwards; /*backwards  none  both  动画执行前后 效果是否可见，，，  就完成效果后定住结果呗（或者回到初始状态）*/
+            animation-play-state: running;  /*stop*/
+
+
+            animation: myAct 3s linear 1s infinite reverse forwards;
+        }
+
+        /*background*/
+        div{
+            background-clip: border-box;    /*理解着就是背景适用范围  padding-box content-box*/
+            background-origin: padding-box; /*背景的相对定位 border-box content-box*/
+            background-position: center;    /*背景的绝对定位*/
+            background-size: contain;       /*跟repeat有相似诶，contain的话把背景放到最大去适应容器，然后就可能发生repeat啊，cover的话效果就是拉伸嘛*/
+            background-repeat: round;
+            background-attachment: fixed;   /*感觉跟overflow差不多呀，emmmm fixed的话感觉是absolute的fixed*/
+            /*同时声明应该是没有顺序要求 size,clip,origin不能设定*/
+
+        }
+
+        /*section 高亮部分，一般是鼠标选中部分什么的*/
+        /*::backdrop*/
+        /*backface-visible*/
+
+        /*滤镜效果诶，好神奇*/
+        #item1{
+            filter:blur(0.1px);     /*模糊效果，设置的是半径 0--没效果*/
+            filter:brightness(0.5);     /*曝光度  1是默认状态   同时设置模糊没用了诶*/
+            filter：contrast(0.5);       /*对比度  1*/
+        }
+        #item2{
+            filter：drop-shadow(20px 5px 0.2px black);   /*添加阴影 x偏移量y偏移量 blur-radius color*/
+            filter: grayscale(0.8);     /*灰度，，，感觉调低了曝光度一样，，，好吧还是要看基础色的*/
+            filter：hue-rotate(30deg);   /*字面来看色调做了一个旋转？？不过我这个纯色应该是没用的*/
+            filter:invert(30%);         /*到50%感觉是调低了亮度，再往后感觉是底片效果*/
+            filter:opacity(1);
+            filter：sepia(0.3);      /*就一个棕褐色的滤镜*/
+        }
+
+        /*border */
+        #t{
+            border-image-slice:1;           /*图片偏移量，，不是很能理解，，*/
+            border-image-source: linear-gradient(to top, red, yellow);
+            border-image-outset: 5px;       /*感觉有点像margin的感觉，不过这个是往外边扩*/
+            border: 3px dotted pink;
+            /*border-image:source slice width outset repeat;*/
+
+            border-collapse: separate;      /*合并的话，以表格边框为准*/
+            border-spacing: 5px;
+            box-shadow:10px 5px 2px 3px wheat;   /*添加阴影 x偏移量y偏移量 blur-radius color*/
+            empty-cells: hide;              /*默认show*/
+
+        }
+        #t tr td{
+            border: 1px solid salmon;
+
+        }
+
+        /*这个效果有点厉害诶，感觉吧一个元素根据显示的情况拆成几个元素包装了*/
+        .clone {
+             border: 2px solid green;
+             box-decoration-break: clone;
+            -webkit-box-decoration-break: clone;
+        }
+
+        .box{
+            border: 2px solid salmon;
+            padding:10px;
+            width:100px;
+            height:calc(100px);         /*就是通过计算得到最终值  ？？？ 为什么？？？直接写好不就行了,,,en 实验看来还是方便的*/
+            /*用在有padding，margin的盒子模型，如果设置了padding，那内容物直接可以设成calc(100%-padding) enen还是方便的 说到这里突然想padding，margin会不会合并的*/
+        }
+        .content-box{
+            box-sizing: content-box;        /*平时默认的应该是这个，设定的width，height就只是这个容器的属性，
+                                               下面那个的话就是不包含padding和border，也就是宽度是76px*/
+        }
+        .border-box{
+            box-sizing: border-box;
+        }
+
+        /*omg，，居然还可以设置输入时候光标的颜色 鼠标也有好多样式呀*/
+        input{
+            caret-color:pink;
+            cursor: pointer;
+        }
+
+        /*omg  css居然可以画出那么多图形。。。。那么多数字都在干嘛 哼哼 basic-shape*/
+
+
+        /*:first-of-type emmmm,不写选择器一个元素嵌套多个子元素的时候到底什么规律啊？？？*/
+        /*一个元素下各个后代各个类型第一个节点！*/
+        #firstType  :first-of-type{
+            background: pink;
+        }
+
+        /*flex*/
+        /*这还是道数学题，根据权重将超出的部分分配到各个元素缩放
+            e.g. （150*3-300）= 150   150/（1+1+2）=37。5  box1=150-1*37.5   box2=150-2*37.5*/
+        /*flex-grow直接按权重分配宽度  e.g. 300/（1+1+2）=75  box1=75*1=75 box2=75*2=150*/
+        .shrink{
+            display: flex;
+            width:300px;
+            border: 1px dotted pink;
+            flex-flow: row wrap;     /*direction wrap*/
+
+        }
+        .shrink div{
+            /*width: 150px;*/
+            border: 1px solid salmon;
+            flex-basis: 10px;
+            /*flex:grow shrink basis    basis规定了初始长度，，，emmmm 但是如果比所需空间小是没用的吧*/
+        }
+        .box1{
+            flex-shrink: 1;
+        }
+        .box2{
+
+            flex-shrink:2;
+        }
+
+        /*  计数器 ,还可以出副标题，厉害啊*/
+        ul{
+            counter-reset: count;
+        }
+        li:before{
+            counter-increment: count;
+            content:counters(count,'.') " ";
+        }
+
+        /*display:
+        inline:inline,inline-block(???)...
+        block:block,table,flex,grid...
+        */
+
+        /*hyphens:换行的时候切割单词的，，，
+        none--不切割，要是遇上一个单词比宽度大就直接超出格子
+        auto:最专业的，会用分词符切割单词
+        manual：就生切，宽度不够直接换行不管单词完整性*/
+
+        /*渐变来啦，，，这个还有点懵，没搞太明白颜色数字的匹配
+        我好像知道了，根据一开始的方向画出基线，然后根据给的数字，从哪到哪是什么颜色*/
+        #container{
+            background: radial-gradient(white,pink);
+        }
+    </style>
+
+</head>
+<body>
+    <div id="firstType">
+        <span>This `span` is first!</span>  <!-- div 1st子元素-->
+        <span>But this `span` isn't.</span>
+        <span>This <em>nested `em` is</em>!</span>  <!--span 1st-->
+        <span>And so is this <span>nested `span`</span>!</span> <!--span 1st-->
+        <b>This `b` qualifies!<a>123</a></b>  <!--???  突然想到是各个类型但第一个！！！-->
+        <span>This final `span` does not.</span>
+        <a>aaa</a>
+    </div>
+
+    <div id="container">
+        <div id="item1">1</div>
+        <div id="item2">2</div>
+        <div id="item3">3</div>
+        <div id="item4">4</div>
+        <div id="item5">5</div>
+        <div id="item6" data-item="day7">6</div>
+        <div id="item7">7</div>
+
+    </div>
+
+
+    <div>
+        <label for="values">align-content: </label>
+        <select id="values" onchange="setAttr()">
+            <option value="space-between">space-between</option>
+            <option value="stretch">stretch</option>
+            <option value="flex-start">flex-start</option>
+            <option value="flex-end">flex-end</option>
+            <option value="center" selected>center</option>
+        </select>
+    </div>
+
+    <table id="t">
+        <tr>
+            <td>1</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td></td>
+        </tr>
+    </table>
+
+    <br>
+    <span class="clone">The<br>quick<br>orange fox</span>
+
+    <br>
+    <div class="box content-box">content-box</div>
+    <br>
+    <div class="box border-box">border-box</div>
+
+    <input />
+
+    <div class="shrink">
+        <div class="box1">box1</div>
+        <div class="box1">box1</div>
+        <div class="box2">box2</div>
+    </div>
+
+    <ul>
+        <li>xixi</li>
+        <li>haha</li>
+        <li>heihei</li>
+        <ul>
+            <li>a</li>
+            <li>a</li>
+            <li>a</li>
+        </ul>
+    </ul>
+</body>
+</html>

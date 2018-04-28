@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script type="text/javascript">
+        console.log(Object.prototype.toString.call(new Date));
+        console.log(typeof(new Date));
+        console.log(Object.prototype.toString.call(undefined));
+        console.log(typeof(undefined));
+        console.log(Object.prototype.toString.call(null));
+        console.log(typeof(null));
+
+
+
+        let arr=[1,2,3];
+        console.log(Object.prototype.toString.call(arr[0]));
+        console.log(Object.prototype.toString.call(arr));
+        let res = (arr.toString());
+        console.log(Object.prototype.toString.call(res));
+        //toString()不改变原对象，返回一个新的对象,判断类型返回的是字符串，他可以访问到对象的class属性故能返回类型,
+        // Object原型链上的tostring()方法功能是返回类型，使用.tostring()调用的是其他类型重写的方法
+
+
+
+        //array-like object :have length property,number indexed elements e.g.arguments\string\etc.
+        function fun(){
+            console.log(Object.prototype.toString.call(arguments));
+        }
+        fun(1,2);
+
+
+        //have length property but can't be visited by index
+        console.log((function(x,y){}).length);
+        console.log((function(x=1,y){}).length);
+        console.log(Array.from.length);
+        console.log(Function.length);
+        //方法，类length属性？？？
+
+
+        //so str is array-like object ,,,
+        let str="abc";
+        console.log(str[2]);
+        console.log(Object.prototype.toString.call(str));
+
+
+        arr=Array.from({length: 5}, (v, i) => i);
+        console.log(arr);
+        //定义的length属性直接赋给这个对象，相当于有5个元素，我靠之前用的时候怎么没意识到啊，，，一直就当数组来用了觉得跟下标是0没什么区别
+
+    </script>
+</head>
+<body>
+<script type="text/javascript">
+
+    //instanceof 用于实例化查找，，，是在原型链上查找对象，跨frame/window全局环境变了，全局对象不同，isArray就toString.call对上就行
+    let frame = document.createElement('iframe');
+    document.body.appendChild(frame);
+    let xArray = window.frames[window.frames.length-1].Array;
+    let attr = new xArray(1,2,3); // [1,2,3]
+
+    console.log(Array.isArray(attr));  // true
+    console.log(attr instanceof Array); // false
+    console.log(xArray instanceof Array); // false
+    console.log(attr instanceof xArray); // true
+
+
+    //===||== 复杂类型对比较要看他们是否指向同一个对象
+    //console.log([] == []);      //false
+
+
+    //对象有自己的__proto__属性，构造函数有prototype属性
+    let a =Object.create(Array);             // a.__proto__=Array   a=new Array     a.prototype=Array.prototype
+    console.log("object.create");
+    console.log(a instanceof Array);        //false?????
+    console.log(a.prototype);               //[]？？？？a()不是一个函数啊？？？？
+    console.log(a.__proto__);               //function Array(){}
+    console.log(a.constructor===Function);  //true
+
+
+
+    //prototype是函数方法的属性，，， __proto__是实例的属性
+    console.log('new');
+    a=[];      //  ==object.create(Array.prototype) ==  a=new Array();
+    a=new Array()
+    console.log(a.__proto__ === Array.prototype);       //[]
+    console.log(a.prototype);               //undefined  ？？？实例对象没有？？
+    console.log(a instanceof Array);        //true
+    console.log(a.constructor ===Array);    //true
+
+
+    console.log('b=function');
+    function b(){
+        this.a=1;
+    }
+    let c = Object.create(b);
+    console.log(c instanceof b);
+    console.log(c.a);       //undefined,原型链上没有a属性
+    console.log();
+    let d = new b();        //new 将this绑定到构造的新对象
+    console.log(d.a);
+
+
+
+    console.log('call');        //object.create
+    b.call(c);
+    console.log(c.__proto__ === b);
+    console.log(c.prototype === b.prototype);
+    console.log(c.a);           //call,apply,bind可以传递this
+
+
+
+
+</script>
+</body>
+</html>

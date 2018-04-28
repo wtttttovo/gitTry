@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        nav{
+            border:1px solid pink;
+            margin: 0;
+            padding: 0;
+        }
+        nav ul{
+            /*overflow: hidden;*/
+            display: inline-block;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li{
+            float:  left;
+            list-style: none;
+            border:1px solid pink;
+        }
+        nav ul li:after{
+            clear: both;
+        }
+
+        main{
+            width: 100%;
+            height:200px;
+            overflow: auto;
+            border:1px solid pink;
+        }
+        main article{
+            border:1px solid pink;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+<!--又 语义化，没什么效果只是告诉开发者这是什么??  感觉就是逻辑结构清楚一点-->
+
+    <header>
+        <h1>today</h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#Good">Good</a></li>
+            <li><a href="#Morning">Morning</a></li>
+            <li><a href="#veryGood">Good</a></li>
+            <li><a href="#Luck">Luck</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article id="Good">
+
+            <header>
+                <h3>breakfast</h3>
+            </header>
+            <section>
+                <dl>
+                    <dh>food</dh>
+                    <dd>bread.emmmmm...chiwanle</dd>
+                    <dh>drink</dh>
+                    <dd>water.emmmmm.a bit cold</dd>
+                </dl>
+
+            </section>
+            <time datetime="2018-04-04">2018-4-4</time>
+        </article>
+
+        <article id="Morning">
+            <header>
+                <h3>way</h3>
+            </header>
+            <section>
+                <p>on my way here,a dog run with me</p>
+            </section>
+            <video>
+                <source>
+            </video>
+            <audio>
+                <source>
+            </audio>
+        </article>
+
+        <!--啊啊啊啊 嵌套怎么没效果了  看来要看下嵌套规则了-->
+        <p>Using <abbr title="123">HTML</abbr> is fun and easy!</p>
+
+        <abbr title="People's Republic of China">PRC</abbr>
+
+
+        <!--给我的图片开一个独立流（？？文档流？？文本流）,可以在上面加标题哦-->
+        <figure>
+            <figcaption>title</figcaption>
+            <code>here is code</code>
+        </figure>
+    </main>
+
+    <footer>
+        <address>find me here</address>
+    </footer>
+
+
+
+</body>
+</html>
